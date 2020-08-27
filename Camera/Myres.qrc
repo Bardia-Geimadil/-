@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resolution.png</file>
+        <file>timer.png</file>
+    </qresource>
+</RCC>
