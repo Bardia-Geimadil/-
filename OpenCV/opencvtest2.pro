@@ -38,6 +38,7 @@ LIBS += /home/bardia/opencv-4.4.0-debug/lib/libopencv_imgcodecs.so
 LIBS += /home/bardia/opencv-4.4.0-debug/lib/libopencv_highgui.so
 LIBS += /home/bardia/opencv-4.4.0-debug/lib/libopencv_imgproc.so.4.4
 LIBS += /home/bardia/opencv-4.4.0-debug/lib/libopencv_videoio.so.4.4
+LIBS += /home/bardia/opencv-4.4.0-debug/lib/libopencv_objdetect.so.4.4
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -10,6 +10,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <stdlib.h>
 #include <stdio.h>
+#include <opencv2/objdetect/objdetect.hpp>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -128,7 +130,7 @@ void MainWindow::on_grayimage_btn_clicked()
     using namespace cv;
 
     Mat image;
-    image = imread("/media/bardia/52B0239FB0238895/wallpaper/flower.jpg", IMREAD_COLOR);
+    image = imread("../opencvtest2/flower.jpg", IMREAD_COLOR);
 
     if(! image.data )
     {
@@ -166,7 +168,7 @@ void MainWindow::on_mediam_btn_clicked()
 {
     using namespace cv;
     Mat src , dst;
-    src = imread("/media/bardia/52B0239FB0238895/wallpaper/flower.jpg");
+    src = imread("../opencvtest2/flower.jpg");
 
     medianBlur ( src, dst, 15 );
    //  GaussianBlur(src , dst , Size( 11, 1 ), 0, 0);
@@ -188,7 +190,7 @@ void MainWindow::on_edge_btn_clicked()
     using namespace cv;
 
     Mat src1;
-        src1 = imread("/media/bardia/52B0239FB0238895/wallpaper/wish.jpg", IMREAD_COLOR);
+        src1 = imread("../opencvtest2/pic2.jpg", IMREAD_COLOR);
         namedWindow( "Original image",WINDOW_AUTOSIZE );
         imshow( "Original image", src1 );
 
@@ -218,7 +220,7 @@ void MainWindow::on_linedetect_btn_clicked()
 
     using namespace cv;
 
-    Mat src = imread("/media/bardia/52B0239FB0238895/wallpaper/wish.jpg", 0);
+    Mat src = imread("../opencvtest2/pic2.jpg", 0);
 //    if(src.empty())
 //    {
 //        help();
@@ -275,7 +277,10 @@ void MainWindow::on_circledetect_btn_clicked()
     Mat src, src_gray;
 
       /// Read the image
-      src = imread("/media/bardia/52B0239FB0238895/wallpaper/circle.png" ); //
+      src = imread("../opencvtest2/circle.png" ); //
+
+      namedWindow("Main picture" , WINDOW_AUTOSIZE);
+      imshow("Main picture" , src);
 
 //      if( !src.data )
 //        { return -1; }
@@ -308,3 +313,145 @@ void MainWindow::on_circledetect_btn_clicked()
 
       //waitKey(0);
 }
+
+void MainWindow::on_histogram_btn_clicked()
+{
+    using namespace cv;
+    using namespace std;
+    Mat gray=imread("../opencvtest2/circle.png",0);
+        namedWindow( "Gray", 1 );    imshow( "Gray", gray );
+
+        // Initialize parameters
+        int histSize = 256;    // bin size
+        float range[] = { 0, 255 };
+        const float *ranges[] = { range };
+
+        // Calculate histogram
+        MatND hist;
+        calcHist( &gray, 1, 0, Mat(), hist, 1, &histSize, ranges, true, false );
+
+        // Show the calculated histogram in command window
+      //  double total;
+        //total = gray.rows * gray.cols;
+//        for( int h = 0; h < histSize; h++ )
+//             {
+//                float binVal = hist.at<float>(h);
+//                //cout<<" "<<binVal;
+//             }
+
+        // Plot the histogram
+        int hist_w = 512; int hist_h = 400;
+        int bin_w = cvRound( (double) hist_w/histSize );
+
+        Mat histImage( hist_h, hist_w, CV_8UC1, Scalar( 0,0,0) );
+        normalize(hist, hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
+
+        for( int i = 1; i < histSize; i++ )
+        {
+          line( histImage, Point( bin_w*(i-1), hist_h - cvRound(hist.at<float>(i-1)) ) ,
+                           Point( bin_w*(i), hist_h - cvRound(hist.at<float>(i)) ),
+                           Scalar( 255, 0, 0), 2, 8, 0  );
+        }
+
+        namedWindow( "Result", 1 );    imshow( "Result", histImage );
+
+
+}
+
+void MainWindow::on_dialation_btn_clicked()
+{
+
+    using namespace cv;
+    Mat image,dst;
+           image = imread("../opencvtest2/pic2.jpg", IMREAD_COLOR);
+
+           // Create a structuring element
+           int erosion_size = 6;
+           Mat element = getStructuringElement(cv::MORPH_CROSS,
+                  cv::Size(2 * erosion_size + 1, 2 * erosion_size + 1),
+                  cv::Point(erosion_size, erosion_size) );
+
+           // Apply erosion or dilation on the image
+          dilate(image,dst,element);  // dilate(image,dst,element);
+
+           namedWindow( "Display window", WINDOW_AUTOSIZE );
+           imshow( "Display window", image );
+
+           namedWindow( "Result window", WINDOW_AUTOSIZE );
+           imshow( "Result window", dst );
+
+
+
+
+
+
+}
+
+void MainWindow::on_erosion_btn_clicked()
+{
+    using namespace cv;
+    Mat image,dst;
+           image = imread("../opencvtest2/pic2.jpg", IMREAD_COLOR);
+
+           // Create a structuring element
+           int erosion_size = 6;
+           Mat element = getStructuringElement(cv::MORPH_CROSS,
+                  cv::Size(2 * erosion_size + 1, 2 * erosion_size + 1),
+                  cv::Point(erosion_size, erosion_size) );
+
+           // Apply erosion or dilation on the image
+           erode(image,dst,element);  // dilate(image,dst,element);
+
+           namedWindow( "Display window", WINDOW_AUTOSIZE );
+           imshow( "Display window", image );
+
+           namedWindow( "Result window", WINDOW_AUTOSIZE );
+           imshow( "Result window", dst );
+
+}
+
+
+
+void MainWindow::on_bitwise_btn_clicked()
+{
+    using namespace cv;
+    Mat drawing1 = Mat::zeros( Size(400,200), CV_8UC1 );
+        Mat drawing2 = Mat::zeros( Size(400,200), CV_8UC1 );
+
+        drawing1(Range(0,drawing1.rows),Range(0,drawing1.cols/2))=255; imshow("drawing1",drawing1);
+        drawing2(Range(100,150),Range(150,350))=255; imshow("drawing2",drawing2);
+
+        Mat res;
+        bitwise_and(drawing1,drawing2,res);     imshow("AND",res);
+        bitwise_or(drawing1,drawing2,res);      imshow("OR",res);
+        bitwise_xor(drawing1,drawing2,res);     imshow("XOR",res);
+        bitwise_not(drawing1,res);              imshow("NOT",res);
+
+}
+
+void MainWindow::on_facedetect_btn_clicked()
+{
+
+    using namespace cv;
+    Mat image;
+       image = imread("../opencvtest2/faces.jpg", IMREAD_COLOR);
+       namedWindow( "window1", 1 );   imshow( "window1", image );
+
+       // Load Face cascade (.xml file)
+       CascadeClassifier face_cascade;
+       face_cascade.load( "/home/bardia/Downloads/opencv-4.4.0/data/haarcascades/haarcascade_frontalface_alt2.xml" );
+
+       // Detect faces
+       std::vector<Rect> faces;
+       face_cascade.detectMultiScale( image, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30, 30) );
+
+       // Draw circles on the detected faces
+       for( unsigned i = 0; i < faces.size(); i++ )
+       {
+           Point center( faces[i].x + faces[i].width*0.5, faces[i].y + faces[i].height*0.5 );
+           ellipse( image, center, Size( faces[i].width*0.5, faces[i].height*0.5), 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
+       }
+
+       imshow( "Detected Face", image );
+}
+

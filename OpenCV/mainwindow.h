@@ -35,6 +35,16 @@ private slots:
 
     void on_circledetect_btn_clicked();
 
+    void on_histogram_btn_clicked();
+
+    void on_dialation_btn_clicked();
+
+    void on_erosion_btn_clicked();
+
+    void on_facedetect_btn_clicked();
+
+    void on_bitwise_btn_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

@@ -131,6 +131,71 @@
      <string>Circle detect</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="histogram_btn">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>120</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Histogram</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="dialation_btn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>120</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dialation</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="erosion_btn">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>120</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Erosion</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="facedetect_btn">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>190</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Face_detect</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="bitwise_btn">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>190</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>bitwise</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
